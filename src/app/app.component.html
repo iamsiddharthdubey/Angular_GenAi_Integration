@@ -1,0 +1,44 @@
+<div class="chat-container">
+  <header class="chat-header">
+    <h1>{{ title }} Chat</h1>
+  </header>
+  <main class="chat-history">
+    <ng-container *ngFor="let item of chatHistory">
+      <div
+        class="messages"
+        [ngClass]="{ blue: item.from === 'user', green: item.from === 'bot' }"
+      >
+        <i
+          class="fa"
+          [ngClass]="{
+            'fa-user-circle': item.from === 'user',
+            'fa-graduation-cap': item.from === 'bot'
+          }"
+        ></i>
+        <span class="responses" [innerHTML]="formatText(item.message)"></span>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="loading">
+      <app-loader></app-loader>
+    </ng-container>
+  </main>
+  <footer class="chat-input">
+    <input
+      class="message-input"
+      type="text"
+      (keyup.enter)="sendData()"
+      placeholder="Type your message..."
+      [(ngModel)]="prompt"
+      [disabled]="loading"
+      autocomplete="off"
+    />
+    <button
+      mat-raised-button
+      id="send-button"
+      (click)="sendData()"
+      [disabled]="loading"
+    >
+      Send
+    </button>
+  </footer>
+</div>
